@@ -4,7 +4,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
+
+#include "todo.h"
 
 #ifndef VERSION
 #define VERSION "unknown"
@@ -18,6 +21,9 @@ void version(void);
 
 int32_t main(int32_t argc, char **argv) {
   int opt;
+  struct tm deadline = {.tm_year = 94, .tm_mon = 8, .tm_mday = 2};
+  Todo t = {TODO, deadline, "Something", "Something Description"};
+  char buf[100];
 
   while ((opt = getopt(argc, argv, "hv")) != -1) {
     switch (opt) {
@@ -32,6 +38,10 @@ int32_t main(int32_t argc, char **argv) {
       exit(EXIT_FAILURE);
     }
   }
+
+  strftime(buf, 100, "%Y-%m-%d", &t.deadline);
+  printf("%d - %s - %s: %s\n", t.status, buf, t.title, t.description);
+
   return 0;
 }
 
