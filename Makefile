@@ -6,6 +6,18 @@
 
 include config.mk
 
+SRC_DIR = .
+BUILD_DIR = build
+OBJ_DIR = $(BUILD_DIR)/obj
+BIN_DIR = $(BUILD_DIR)/bin
+DIST_DIR = $(BUILD_DIR)/dist
+DIST_BASE_DIR = tdc-$(VERSION)
+
+HDR = $(wildcard *.h)
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o, $(SRC))
+BIN = $(BIN_DIR)/tdc
+
 PKGFILES = \
 	CPPLINT.cfg\
 	LICENSE\
@@ -14,19 +26,8 @@ PKGFILES = \
 	config.mk\
 	doc\
 	man\
-	src
-
-SRC_DIR = src
-BUILD_DIR = build
-OBJ_DIR = $(BUILD_DIR)/obj
-BIN_DIR = $(BUILD_DIR)/bin
-DIST_DIR = $(BUILD_DIR)/dist
-DIST_BASE_DIR = tdc-$(VERSION)
-
-SRC = $(wildcard $(SRC_DIR)/*.c)
-OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o, $(SRC))
-BIN = $(BIN_DIR)/tdc
-
+	${SRC}\
+	${HDR}
 
 all: $(BIN)
 	@echo "tdc built"
